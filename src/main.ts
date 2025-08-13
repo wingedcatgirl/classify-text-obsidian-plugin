@@ -1,35 +1,35 @@
 import { App, Editor, MarkdownView, Menu, Modal, Plugin } from 'obsidian';
 
-import { DEFAULT_SETTINGS, StyleTextSettings, GeneralSettingsTab, Style } from './settings'
+import { DEFAULT_SETTINGS, ClassifyTextSettings, GeneralSettingsTab, Style } from './settings'
 
 export type EnhancedApp = App & {
 	commands: { executeCommandById: Function };
 };
 
-export default class StyleText extends Plugin {
-	settings: StyleTextSettings;
+export default class ClassifyText extends Plugin {
+	settings: ClassifyTextSettings;
 
 	async onload(): Promise<void> {
 
 		await this.loadSettings();
 		this.addCommand({
-			id: 'remove-style',
-			name: 'Remove Style',
+			id: 'remove-class',
+			name: 'Remove Class',
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				const selection = editor.getSelection();
 				editor.replaceSelection(this.betterClearHTMLTags(selection));
 			}
 		});
 
-		// Style Commands
+		// Class Commands
 		this.settings.styles.forEach((style, index) => {
-			this.addStyleCommand(style, index + 1);
+			this.addClassCommand(style, index + 1);
 		});
 
 
-		// Styles Context Menu
+		// Classes Context Menu
 		this.registerEvent(
-			this.app.workspace.on("editor-menu", this.styleTextInContextMenu)
+			this.app.workspace.on("editor-menu", this.classifyTextInContextMenu)
 		);
 
 		this.updateBodyListClass();
@@ -55,7 +55,7 @@ export default class StyleText extends Plugin {
 	}
 
 	// index: 1-based
-	addStyleCommand(style: Style, index: number) {
+	addClassCommand(style: Style, index: number) {
 		const isHighlight = style.css.indexOf("background-color") !== -1;
 		const tag = isHighlight ? "mark" : "span";
 		this.addCommand({
@@ -63,20 +63,20 @@ export default class StyleText extends Plugin {
 			name: `${style.name}`,
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 				const selection = editor.getSelection();
-				editor.replaceSelection(`<${tag} style="${style.css}">${selection}</${tag}>`);
+				editor.replaceSelection(`<${tag} class="${style.css}">${selection}</${tag}>`);
 			}
 		});
 	}
 
-	styleTextInContextMenu = (menu: Menu, editor: Editor) => {
+	classifyTextInContextMenu = (menu: Menu, editor: Editor) => {
 		const enhancedApp = this.app as EnhancedApp;
 
 		menu.addItem((item) =>
 			item
-				.setTitle("Remove Style")
+				.setTitle("Remove Class")
 				.setIcon("eraser")
 				.onClick(() => {
-					enhancedApp.commands.executeCommandById(`style-text:remove-style`);
+					enhancedApp.commands.executeCommandById(`classify-text:remove-class`);
 				})
 		);
 
@@ -87,7 +87,7 @@ export default class StyleText extends Plugin {
 						.setTitle(style.name)
 						.setIcon("highlighter")
 						.onClick(() => {
-							enhancedApp.commands.executeCommandById(`style-text:style${index + 1}`);
+							enhancedApp.commands.executeCommandById(`classify-text:style${index + 1}`);
 						})
 				);
 			}
@@ -95,7 +95,7 @@ export default class StyleText extends Plugin {
 	}
 
 	updateBodyListClass() {
-		document.body.classList.add("style-text");
+		document.body.classList.add("classify-text");
 	}
 }
 

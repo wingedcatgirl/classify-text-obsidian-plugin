@@ -1,11 +1,10 @@
 {
-	"id": "style-text",
-	"name": "Style Text",
+	"id": "classify-text",
+	"name": "Classify Text",
 	"version": "0.1.0",
 	"minAppVersion": "0.1.0",
-	"description": "Apply custom CSS styles to selected text in your Obsidian Notes.",
-	"author": "Juanjo Arranz",
-	"authorUrl": "https://github.com/juanjoarranz",
-	"fundingUrl": "https://ko-fi.com/F1F6H4TAR",
+	"description": "Apply custom CSS classes to selected text in your Obsidian Notes.",
+	"author": "wingedcatgirl",
+	"authorUrl": "https://github.com/wingedcatgirl",
 	"isDesktopOnly": false
 }
