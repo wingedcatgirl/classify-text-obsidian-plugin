@@ -6,3 +6,5 @@ Works basically the same as the source plugin, but applies classes (that you got
 
 # To install
 Extract the zip or clone the repo into your plugins folder. I only really made this for my own use, tbh, so I won't be putting it in the official Obsidian listing or whatever unless there's, like, actual demand for it.
+
+I think technically you only need `main.js`, `styles.css`, and `manifest.json`, but the other files shouldn't hurt. Probably. Look, I don't actually know TypeScript.
